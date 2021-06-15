@@ -20,6 +20,186 @@
     .playlist-bar {
         display: none;
     }
+    .logo {
+        font-size: 5rem;
+    }
+    .logo i {
+        font-size: 7.8rem;
+    }
+
+    .mobile-webapp #sideBar{
+        background-color: rgba(0, 0, 0, 0.85);
+        z-index: 2;
+        width: 100%;
+        font-size: 2rem;
+        overflow: auto;
+        height: 100%;
+        animation: animatebottom 0.4s;
+    }
+    .mobile-webapp .sidebar-item li {
+        font-size: 2rem;
+    }
+    .mobile-webapp .sidebar-item li a {
+        color: white;
+        text-decoration: none;
+    }
+    .mobile-webapp #content {
+        left: 0px;
+        bottom: 0px;
+    }
+    .mobile-webapp .content-header {
+        flex-direction: column;
+        padding: 60px;
+        min-height: 60%;
+    }
+    .mobile-webapp .content-playlist {
+        padding: 15px;
+        min-height: 40%;
+        border-bottom: 0px solid hsla(0,0%,100%,.1);
+    }
+    .mobile-webapp .cover-album {
+        padding-left: 0px;
+    }
+    .mobile-webapp .cover-album img {
+        max-height: 170px;
+        margin: 20px 0px;
+    }
+    .mobile-webapp .info-album {
+        padding-left: 0px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .mobile-webapp .info-album h1 {
+        font-size: 3rem;
+    }
+    .mobile-webapp .m-info-album {
+        display: block!important;
+        font-weight: 300;
+    }
+    .mobile-webapp #player {
+        border-top: 0.00px solid #b3b3b3;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        bottom: auto;
+        top: 0px;
+    }
+    .mobile-webapp .player-container {
+        flex-direction: column;
+        height: 100%;
+        padding: 30px;
+    }
+
+    .mobile-webapp .player-song{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+
+    .mobile-webapp .player-info {
+        flex-direction: column;
+        justify-content: space-around;
+        flex: 3;
+        margin-top: 10%;
+    }
+
+    .mobile-webapp .progress-bar {
+        width: 100%;
+        margin: auto;
+    }
+
+    .mobile-webapp .player-control {
+        flex: 0;
+    }
+
+    .mobile-webapp .song-control {
+        width: 100%;
+    }
+
+    .mobile-webapp .info-avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;   
+        margin: 0;
+    }
+
+    .mobile-webapp .info-avatar img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .mobile-webapp .info-song {
+        display: flex;
+        line-height: 1.5;
+        width: 100%;
+        justify-content: space-between;
+        flex-basis: 30%;
+    }
+
+    .mobile-webapp .control {
+        font-size: 1.8rem;
+    }
+
+    .mobile-webapp .pause-play-button {
+        width: 47px!important;
+        height: 47px!important;
+    }
+
+    .mobile-webapp .info-control {
+        display: flex;
+        align-items: center;
+    }
+    .mobile-webapp .info-song {
+        font-size: 1.2rem;
+        margin-right: 5px;
+    }
+
+    .mobile-webapp .start-song,
+    .mobile-webapp .end-song {
+        display: none;
+    }
+
+    .mobile-webapp .control-app {
+        margin-right: -22px;
+    }
+
+    .mobile-webapp .mobile-control {
+        display: block;
+    }
+    .mobile-webapp .info-song div:first-child {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .mobile-webapp .info-song h3 {
+        font-size: 3.2rem;
+        font-weight: 700;
+    }
+    .mobile-webapp .info-song h4 {
+        font-weight: 700;
+    }
+
+    .mobile-webapp .mobile-more {
+        display: block;
+        position: fixed;
+        right: 30px;
+        top: 20px;
+        font-size: 30px;
+        z-index: 1;
+        color: white;
+    }
+    .mobile-webapp .mobile-down {
+        color: white;
+        font-size: 3.5rem;
+        position: fixed;
+        top: 16px;
+        left: 30px;
+        display: block;
+        z-index: 1;
+    }
+
+    /* giao dien con lai */
     #sideBar{
         background-color: rgba(0, 0, 0, 0.85);
         z-index: 1;
@@ -28,15 +208,8 @@
         overflow: auto;
         height: calc(100% - 76px);
         animation: animatebottom 0.4s;
-        
     }
-    .logo {
-        font-size: 5rem;
-    }
-    .logo i {
-        font-size: 7.8rem;
-        
-    }
+
     .sidebar-item li {
         font-size: 2rem;
     }
@@ -73,23 +246,15 @@
         display: block!important;
         font-weight: 300;
     }
-    #player {
+     #player {
         border-top: 0.00px solid #b3b3b3;
-        flex-direction: column;
         justify-content: space-between;
-        padding-bottom: 8px;
         height: 76px;
     }
-    .progress-song-mobile {
-        width: 100%;
-    }
-    .progress-bar {
+     .progress-bar {
         width: 100%;
         margin: 0px;
         height: 2px;
-    }
-    .progress-song-mobile {
-        display: block;
     }
     .mobile-more {
         display: block;

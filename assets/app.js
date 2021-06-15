@@ -10,29 +10,35 @@ const songs = [
         name: 'Alcohol Free',
         singer: 'TWICE',
         img: './assets/img/alcoholfree.jpg',
-        song: './assets/song/AlcoholFree.mp3'
+        song: './assets/song/AlcoholFree.mp3',
+        duration: '3:30'
     },
     {
         id: 2,
         name: 'Candy Pop',
         singer: 'TWICE',
         img: './assets/img/candypop.jpg',
-        song: './assets/song/CandyPop.mp3'
+        song: './assets/song/CandyPop.mp3',
+        duration: '3:30'
     },
     {
         id: 3,
         name: 'LIKEY',
         singer: 'TWICE',
         img: './assets/img/likey.jpg',
-        song: './assets/song/LIKEY.mp3'
+        song: './assets/song/LIKEY.mp3',
+        duration: '3:20'
     }
 ]
 
 const app = {
     currentID: 1,
     isStarted: false,
+    transfer: 'next',
+    audioTemp: 1,
+    mobilePlayer: false,
     playCurrentSong: function () {
-
+        $('.info-control i').style.display = 'block';
         //play current song
         audio.src = songs[app.currentID-1].song;
         if(app.isStarted){
@@ -58,6 +64,7 @@ const app = {
         $('.info-avatar img').src = songs[app.currentID-1].img;
         $('.info-song h3').innerHTML = songs[app.currentID-1].name;
         $('.info-song h4').innerHTML = songs[app.currentID-1].singer;
+        $('.end-song').innerHTML = songs[app.currentID-1].duration;
     },
     
     unPauseCurrentSong(){
@@ -74,6 +81,34 @@ const app = {
         $('.play-button').style.display = 'block';
     },
     
+    preSong: function () {
+        if(app.currentId != 0 && app.isStarted){
+            app.currentID--;
+            app.playCurrentSong();
+        }
+    },
+
+    nextSong: function () {
+        if(app.currentID != songs.length && app.isStarted){
+            app.currentID++;
+            app.playCurrentSong();
+        }
+    },
+
+    setVolume: function (volume) {
+        audio.volume = volume
+        $('.current-volume').style.width = `${volume*100}%`;
+            if(volume>0.5){
+                $('.volume').innerHTML = '<i class="fal fa-volume"></i>';
+            }
+            else if(volume === 0){
+                $('.volume').innerHTML = '<i class="fal fa-volume-mute"></i>';
+            }
+            else {
+                $('.volume').innerHTML = '<i class="fal fa-volume-down"></i>';
+            }
+    },
+
     handleEvent: function () {
 
         //pause play audio
@@ -85,6 +120,8 @@ const app = {
             else{
                 app.unPauseCurrentSong();
             }
+            $('.pause-button').style.display = 'block';
+            $('.play-button').style.display = 'none';
         }
         $('.pause-button').onclick = function () {
             app.pauseCurrentSong();
@@ -100,25 +137,97 @@ const app = {
                 app.playCurrentSong();
             }
         })
+
+        //next pre song
+        $('.next-song').onclick = function () {
+            app.nextSong();
+        }
+        $('.pre-song').onclick = function () {
+            app.preSong();
+        }
+
+        //shuffle song and repeat song
+        $('.random-song').onclick = function () {
+            this.classList.toggle('clicked');
+            if(app.transfer === 'random'){
+                app.transfer = 'next';
+            }
+            else {
+                if(app.transfer === 'repeat'){
+                    $('.repeat-song').classList.remove('clicked');
+                }
+                app.transfer = 'random';
+            }
+        }
+        $('.repeat-song').onclick = function () {
+            this.classList.toggle('clicked');
+            if(app.transfer === 'repeat'){
+                app.transfer = 'next';
+            }
+            else {
+                if(app.transfer === 'random'){
+                    $('.random-song').classList.remove('clicked');
+                }
+                app.transfer = 'repeat';
+            }
+        }
+
+        //handle step song
+        $('.progress-song .progress-bar').onclick = function (e) {
+            if(app.isStarted){
+                audio.currentTime = ((e.clientX-this.offsetLeft)/this.offsetWidth)*audio.duration;
+                $('.current-bar').style.width = `${100*audio.currentTime/audio.duration}%`;
+            }
+        }
+
+        //handle volume up down
+
+        $('.progress-volume').onclick = function (e) {
+            app.setVolume((e.clientX-this.offsetLeft)/this.offsetWidth);
+        }
+
+        $('.volume').onclick = function () {
+            if(audio.volume !== 0){
+                app.audioTemp = audio.volume;
+                app.setVolume(0);
+            }
+            else{
+                app.setVolume(app.audioTemp);
+            }
+        }
+        
+        //handle love song
+        $('.info-control').onclick = function () {
+            $(`.heart-${app.currentID}`).classList.toggle('heart-song');
+        }
+
+        //handle mobile player player
+        $('.mobile-down').onclick = function () {
+            $('#main').classList.remove('mobile-webapp');
+            $('.mobile-down').style.display = 'none';
+        }
+
+        var x = window.matchMedia("(max-width: 739px)")
+        $('#player').onclick = function () {
+            if(!$('#main').classList.contains('mobile-webapp') && x.matches)  {
+                $('#main').classList.add('mobile-webapp');
+                $('.mobile-down').style.display = 'block';
+            } 
+        }
     },
 
-    // handleChooseSong: function () {
-    //     playSongs = $$('.small-play');
-    //     playSongs.forEach(function (playSong){
-    //         playSong.onclick = function () {
-    //             let songid = playSong.classList[1];
-                
-    //             //load current audio
-    //             audio.pause();
-    //             app.currentSong = songs[songid - 1];
-    //             audio.src = app.currentSong.song;
-    //             audio.play();
+    minutesPlayed: function (time) {
+        let seconds;
+        if(time.toFixed()%60 < 10){
+            seconds = '0' + time.toFixed()%60;
+        }
+        else{
+            seconds = time.toFixed()%60;
+        }
+        let minutes = (time.toFixed()-time.toFixed()%60)/60;
+        return minutes+':' +seconds;
+    },
 
-    //             //change display 
-    //             
-    //         }
-    //     })  
-    // },
     handleAccountButton: function () {
         $('.account').onclick = function(){
             if($('.account-control').style.display === 'block'){
@@ -135,6 +244,7 @@ const app = {
             }
         }
     },
+
     handleMobileButton: function () {
         $('.mobile-more').onclick = function () {
             $('#sideBar').style.display = 'flex';
@@ -145,6 +255,29 @@ const app = {
             $('#content').style.filter = 'none';
         }
     },
+
+    renderProgressBar(){
+        let progressBar = $('.current-bar');
+        setInterval (function () {
+            if(app.isStarted) {
+                $('.start-song').innerHTML = app.minutesPlayed(audio.currentTime);
+                progressBar.style.width = `${100*audio.currentTime/audio.duration}%`;
+                if(audio.ended) {
+                    if(app.transfer === 'next'){
+                        app.nextSong();
+                    }
+                    else if(app.transfer === 'repeat'){
+                        app.playCurrentSong();
+                    }
+                    else {
+                        app.currentID = Math.floor(Math.random() * songs.length) + 1;
+                        app.playCurrentSong();
+                    }
+                }
+            }
+        }, 200)     
+    },
+
     renderAlbum: function (){
         var htmls = songs.map(function(song){
             return `
@@ -166,7 +299,8 @@ const app = {
                     </h3>
                 </div>
             </div>
-            <div class="time-song">
+            <div class="time-song heart-${song.id}">
+                <i class="fas fa-heart-circle"></i>
                 3:30
             </div>
         </li>
@@ -175,33 +309,14 @@ const app = {
     
         $('.playlist').innerHTML = htmls.join(' ');
     },
-    // handlePause: function () {
-    //     $('.play-button').onclick = function () {
-    //         audio.play();
-                //if($('.song-paused')){
-        //             $('.song-paused').classList.remove('song-paused');
-        //         }
-    //         this.style.display = 'none';
-    //         
-    //         $('.pause-button').style.display = 'block';
-    //     }
-    //     $('.pause-button').onclick = function () {
-    //         audio.pause();
-    //         this.style.display = 'none';
-    //         if($('.song-played')){
-    //             $('.song-played').classList.add('song-paused');
-    //         }
-    //         else{
 
-    //         }
-    //         $('.play-button').style.display = 'block';
-    //     }
-    // },
+    
     start: function () {
         this.handleAccountButton();
         this.handleMobileButton();
         this.renderAlbum();
         this.handleEvent();
+        this.renderProgressBar();
     }
 }
 

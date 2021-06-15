@@ -147,7 +147,9 @@
 
 .info-song {
     font-size: 1.2rem;
-    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .info-song h3{
@@ -160,6 +162,8 @@
 
 .info-control i {
     font-size: 1.5rem;
+    display: none;    
+    margin-left: 12px;
 }
 
 .info-control:hover {
@@ -178,6 +182,13 @@
     height: 4px;
     border-radius: 4px;
     margin: 0px 5px;
+}
+
+.current-bar {
+    width: 0%;
+    background-color: #1ed760;
+    height: 100%;
+    border-radius: 4px;
 }
 
 .player-song {
@@ -254,10 +265,25 @@
     opacity: 1;
 }
 
+.volume {
+    width: 22px;
+}
+
 .progress-volume {
     width: 90px;
-    height: 3px;
-    background-color:white;
+    height: 3.5px;
+    background-color:#535353;
+    border-radius: 3px;
+}
+
+.progress-volume:hover .current-volume {
+    background-color: #1ed760;
+}
+
+.current-volume {
+    width: 100%;
+    height: 100%;
+    background-color: #b3b3b3;
     border-radius: 3px;
 }
 
@@ -522,4 +548,30 @@
 .song-paused .number-song {
     display: block!important;
     color: #1da84e;
+}
+
+.clicked {
+    color: #1d9a41!important;
+    opacity: 1!important;
+}
+
+.time-song {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.time-song i {
+    padding: 2px;
+    margin-right: 8px;
+    color: #1da84e;
+    display: none;
+}
+
+.heart-song i {
+    display: block;
+}
+
+.mobile-down {
+    display: none;
 }
